@@ -3,6 +3,7 @@ Features
 + E-shop console app
 + Product Listing
 + Adding product to cart
++ view items in cart
 + Purchased items listing
 + Clear Cart
 + User / Customer balance Summary
