@@ -5,7 +5,7 @@ Features
 + Adding product to cart
 + Purchased items listing
 + Clear Cart
-+ User balance Summary
++ User / Customer balance Summary
 + help options
 + Nice looking CLI ;)
 # How to use
