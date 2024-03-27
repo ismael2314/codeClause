@@ -1,10 +1,7 @@
 
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,7 +20,7 @@ public class Main {
                                                                                     \\/               \\/       \\/           |__|               \s
                                
                 """);
-        System.out.println(".help  .quit .about .list .clearCart .checkout .choose .balance .orders");
+        System.out.println(".help  .quit .about .list .clearCart .viewCart .checkout .choose .balance .orders");
         System.setProperty("Data","");
         // ---------------------------------------------------------------------------------
         //
@@ -64,36 +61,40 @@ public class Main {
                 case "ch":
                 case "choose":
                 case ".choose":
-                    productList(store);
-                    System.out.println("******** You can select by product id or product name ********");
-                    boolean chooseStop = false;
-                    while(!chooseStop){
-                        System.out.print("Add to cart | choose > ");
-                        String products=scanner.next().toLowerCase();
-                        for(Product product: store.getProducts()){
-                            if(product.getName().compareTo(products)==0 || product.getId().compareTo(products)==0){
-                                Cart addToCart = new Cart();
-                                addToCart.setId("cart-1");
-                                addToCart.setProduct(product);
-                                addToCart.setCustomer(customer);
-                                System.out.printf("How much of %s > ",product.getName());
-                                addToCart.setQuantity(scanner.nextInt());
-                                cart.add(addToCart);
+                    try {
+                        productList(store);
+                        System.out.println("******** You can select by product id or product name ********");
+                        boolean chooseStop = false;
+                        while (!chooseStop) {
+                            System.out.print("Add to cart | choose > ");
+                            String products = scanner.next().toLowerCase();
+                            for (Product product : store.getProducts()) {
+                                if (product.getName().compareTo(products) == 0 || product.getId().compareTo(products) == 0) {
+                                    Cart addToCart = new Cart();
+                                    addToCart.setId("cart-1");
+                                    addToCart.setProduct(product);
+                                    addToCart.setCustomer(customer);
+                                    System.out.printf("How much of %s > ", product.getName());
+                                    addToCart.setQuantity(scanner.nextInt());
+                                    cart.add(addToCart);
+                                }
+                            }
+                            if (products.compareTo("q") == 0 || products.compareTo("quit") == 0) {
+                                chooseStop = true;
+                            }
+                            switch (products) {
+                                case "cls":
+                                case ".clear":
+                                case "clear":
+                                case "clearCart":
+                                case ".clearCart":
+                                    cart.clear();
+                                    System.out.println("** Cart has been cleared");
+                                    break;
                             }
                         }
-                        if (products.compareTo("q")==0){
-                            chooseStop=true;
-                        }
-                        switch (products){
-                            case "cls":
-                            case ".clear":
-                            case "clear":
-                            case "clearCart":
-                            case ".clearCart":
-                                cart.clear();
-                                System.out.println("** Cart has been cleared");
-                                break;
-                        }
+                    }catch (InputMismatchException e){
+                        System.out.println("Error : Input Error ! ");
                     }
                     break;
                 case "cls":
@@ -103,6 +104,17 @@ public class Main {
                 case ".clearCart":
                     cart.clear();
                     System.out.println("** Cart has been cleared");
+                    break;
+                case "viewcart":
+                case ".viewcart":
+                    System.out.println("Total items in cart : "+cart.size());
+                    System.out.format("+-----------------+-----------------+-----------------+%n");
+                    System.out.format("| %-15s | %-15s | %-15s |%n","Customer","Products","Quantity");
+                    System.out.format("+-----------------+-----------------+-----------------+%n");
+                    for(Cart view: cart){
+                        System.out.format("| %-15s | %-15s | %-15s |%n",view.getCustomer().getName().toUpperCase(),view.getProduct().getName().toUpperCase(),view.getQuantity());
+                        System.out.format("+-----------------+-----------------+-----------------+%n");
+                    }
                     break;
                 case "co":
                 case ".checkout":
